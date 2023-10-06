@@ -1,7 +1,4 @@
-# -*- coding: cp1251 -*-
-
-#primary encryption - ïåðâè÷íîå øèôðîâàíèå
-#Òî åñòü çäåñü øèôðóåì òåêñò ïðîñòûìè àëãîðèòìàìè
+# -*- coding: utf-8 -*-
 
 CEASER_KEY = 17
 
@@ -18,11 +15,11 @@ eng_alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
 start_index_lower_eng = 26
 
 
-rus_alphabet = ['À', 'Á', 'Â', 'Ã', 'Ä', 'Å', '¨', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 
-                'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', '×', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'Þ', 'ß',
+rus_alphabet = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 
+                'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я',
                 
-                'à', 'á', 'â', 'ã', 'ä', 'å', '¸', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï',
-                'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ']
+                'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п',
+                'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я']
 
 start_index_lower_rus = 33
 
@@ -30,14 +27,13 @@ start_index_lower_rus = 33
 #-------------------------------------------------------------------------------------------------------------------------------
 
 
-def char_to_pos_in_alphabet(char, isRusChar):
+def char_to_pos_in_alphabet(char):
 
     if char in eng_alphabet:
-        return eng_alphabet.index(char)
+        return (eng_alphabet.index(char), False)
 
     if char in rus_alphabet:
-        isRusChar = True
-        return rus_alphabet.index(char) 
+        return (rus_alphabet.index(char), True) 
     
 def pos_in_alphabet_to_char(pos, isRusChar):
     if isRusChar:
@@ -49,18 +45,16 @@ def pos_in_alphabet_to_char(pos, isRusChar):
 #-------------------------------------------------------------------------------------------------------------------------------
 
 
-def crypto_Abash(text):
+def Abash_encrypt_decrypt(text):
     result = ""
     for char in text:
         if char in eng_alphabet or char in rus_alphabet:
-
-            isRusChar = False
-            position = char_to_pos_in_alphabet(char, isRusChar)
+            position_tuple = char_to_pos_in_alphabet(char)
             shifted_char = ''
-            if isRusChar:
-                shifted_char = pos_in_alphabet_to_char(len(rus_alphabet) - position, True)
+            if position_tuple[1]:
+                shifted_char = pos_in_alphabet_to_char(len(rus_alphabet) - 1 - position_tuple[0], True)
             else:
-                shifted_char = pos_in_alphabet_to_char(len(eng_alphabet) - position, False)
+                shifted_char = pos_in_alphabet_to_char(len(eng_alphabet) - 1 - position_tuple[0], False)
 
             result += shifted_char
 
@@ -72,21 +66,59 @@ def crypto_Abash(text):
 #-------------------------------------------------------------------------------------------------------------------------------
 
 
-def crypto_Ceaser(text):
+def Ceaser_encrypt(text):
     result = ""
 
     SIZE_ALPHABET = 1
+    START_LOWER_POS = 1
 
     if text[0] in eng_alphabet:
         SIZE_ALPHABET = 26
+        START_LOWER_POS = start_index_lower_eng
     elif text[0] in rus_alphabet:
         SIZE_ALPHABET = 33
+        START_LOWER_POS = start_index_lower_rus
 
-    isRus = False
+        
     for char in text:
         if char in eng_alphabet or char in rus_alphabet:
-            shifted_char = (char_to_pos_in_alphabet(char, isRus) + CEASER_KEY) % SIZE_ALPHABET
+            char_pos_tuple = char_to_pos_in_alphabet(char)
+            isRus = char_pos_tuple[1]
+            shifted_char = ((char_pos_tuple[0] + CEASER_KEY) % SIZE_ALPHABET) + START_LOWER_POS * int(char.islower())
             result += pos_in_alphabet_to_char(shifted_char, isRus)
+
         else:
             result += char
     return result
+
+def Ceaser_decrypt(text):
+    result = ""
+
+    SIZE_ALPHABET = 1
+    START_LOWER_POS = 1
+
+    if text[0] in eng_alphabet:
+        SIZE_ALPHABET = 26
+        START_LOWER_POS = start_index_lower_eng
+    elif text[0] in rus_alphabet:
+        SIZE_ALPHABET = 33
+        START_LOWER_POS = start_index_lower_rus
+        
+
+    for char in text:
+        if char in eng_alphabet or char in rus_alphabet:
+            char_pos_tuple = char_to_pos_in_alphabet(char)
+            isRus = char_pos_tuple[1]
+            shifted_char = ((char_pos_tuple[0] - CEASER_KEY) % SIZE_ALPHABET) + START_LOWER_POS * int(char.islower())
+            result += pos_in_alphabet_to_char(shifted_char, isRus)
+
+        else:
+            result += char
+    return result
+
+
+def primary_encrypt(string):
+    return Abash_encrypt_decrypt(Ceaser_encrypt(string))
+
+def primary_decrypt(string):
+    return Ceaser_decrypt(Abash_encrypt_decrypt(string))
