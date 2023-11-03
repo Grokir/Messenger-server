@@ -35,7 +35,7 @@ def print_public_key(public_key):
 def rsa_encrypt(plaintext, public_key):
     public_key = serialization.load_pem_public_key(public_key, backend=default_backend())
     ciphertext = public_key.encrypt(
-        plaintext.encode(),
+        plaintext.encode('ascii'),
         padding.OAEP(
             mgf=padding.MGF1(algorithm=hashes.SHA256()),
             algorithm=hashes.SHA256(),
