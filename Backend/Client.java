@@ -29,4 +29,21 @@ public class Client {
         return m_person_data.getDateOfBirth();
     }
 
+    public void setLogin(String login) {
+        m_login = login;
+    }
+
+    public void setPassword(String password){
+        m_password = password;
+    }
+
+    public void setPerson(
+            String name,
+            String surname,
+            String patronymic
+    )
+    {
+        m_person_data = new Person(name, surname, patronymic, m_person_data.getRAWDate());
+    }
+
 }

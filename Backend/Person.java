@@ -17,14 +17,28 @@ public class Person {
     private SimpleDateFormat format_date= new SimpleDateFormat("dd.MM.yyyy");
 
     public Person(){
-        String m_name = "";
-        String m_surname = "";
-        String m_patronymic = "";
+        m_name = "";
+        m_surname = "";
+        m_patronymic = "";
         m_birthday = new Date();
         m_birthday.setYear(0);
         m_birthday.setMonth(0);
         m_birthday.setDate(1);
     }
+
+    public Person(
+            String surname,
+            String name,
+            String patronymic,
+            Date date
+    )
+    {
+        m_name = name;
+        m_surname = surname;
+        m_patronymic = patronymic;
+        m_birthday = date;
+    }
+
     public Person(
             String surname,
             String name,
@@ -63,6 +77,7 @@ public class Person {
     public String getDateOfBirth(){
         return format_date.format(m_birthday);
     }
+    public Date getRAWDate() { return m_birthday; }
     public String forPrint(){
         return m_surname + ' ' +
                 m_name + ' ' +
@@ -74,5 +89,5 @@ public class Person {
                 m_name + ' ' +
                 m_patronymic;
     }
-    }
 }
+
