@@ -16,8 +16,6 @@ public class Client {
         m_person_data = new Person(person_data);
     }
 
-    // TODO: деструктор
-
     public String getLogin(){
         return m_login;
     }
