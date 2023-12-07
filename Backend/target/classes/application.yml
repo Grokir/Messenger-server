@@ -1,0 +1,44 @@
+db:
+  name: chat
+  setting: ?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
+  #  host: 192.168.0.106
+  port: 5432
+  password: GK_prod_2020
+
+app:
+  port: 8080
+  host: 127.0.0.1
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${db.host:127.0.0.1}:${db.port:5432}/${db.name:postgres}${db.setting:}
+    username: postgres
+    password: ${db.password:12345}
+    driver-class-name: org.postgresql.Driver
+  thymeleaf:
+    cache: false
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+#  flyway:
+#    url: jdbc:postgresql://${db.host:127.0.0.1}:${db.port:5432}/${db.name:postgres}${db.setting:}
+#    user: postgres
+#    password: ${db.password:12345}
+#    driver-class-name: org.postgresql.Driver
+#    enabled: true
+#    locations:
+#      - 'classpath:db/migration'
+
+#logging:
+#  level:
+#    root: warn
+#    ru:
+#      use:
+#        UseApplication: info
+#        service:
+#          CreateReadUpdateDelete: info
+server:
+  port: ${app.port:8080}
+  address: ${app.host:127.0.0.1}
