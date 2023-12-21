@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -13,5 +13,5 @@ public class MsgResponse implements Serializable {
     private UUID id;
     private UUID user_id;
     private String msg_text;
-    private Date date_dispatch;
+    private LocalDateTime date_dispatch;
 }

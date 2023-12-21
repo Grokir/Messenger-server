@@ -12,7 +12,7 @@ public class UsersInChat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    private int id;
+    private Long id;
     @Basic
     @Column(name = "chat_id", nullable = true)
     private UUID chatId;

@@ -59,7 +59,7 @@ public class ChatService implements BaseService<ChatRequest, ChatResponse>{
         in.addValue("id", id);
         Integer isChatWasDelete = this.namedParameterJdbcTemplate.update("""
                         UPDATE chat.public."chat" SET 
-                        title = NULL
+                        is_delete = true
                         WHERE id=:id::uuid;""", in);
 
         if (isChatWasDelete > 0) {

@@ -3,18 +3,21 @@ package com.example.test_spring.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "history", schema = "public", catalog = "chat")
 public class History {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Long id;
+
     @Basic
     @Column(name = "chat_id", nullable = false)
-    private Object chatId;
+    private UUID chatId;
     @Basic
     @Column(name = "msg_id", nullable = false)
-    private Object msgId;
+    private UUID msgId;
 }

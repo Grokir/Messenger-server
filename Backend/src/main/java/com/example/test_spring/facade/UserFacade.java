@@ -16,7 +16,6 @@ public class UserFacade {
                 .login(user.getLogin())
                 .name(user.getName())
                 .surname(user.getSurname())
-                .patronymic(user.getPatronymic())
                 .build();
     }
 
@@ -24,7 +23,6 @@ public class UserFacade {
         MapSqlParameterSource in = new MapSqlParameterSource();
         in.addValue("name", userRequest.getName());
         in.addValue("surname", userRequest.getSurname());
-        in.addValue("patronymic", userRequest.getPatronymic());
         in.addValue("login", userRequest.getLogin());
         in.addValue("password", new User().hash_password(userRequest.getPassword()));
         return in;
@@ -37,7 +35,6 @@ public class UserFacade {
         in.addValue("password", new User().hash_password(userRequest.getPassword()));
         in.addValue("name", userRequest.getName());
         in.addValue("surname", userRequest.getSurname());
-        in.addValue("patronymic", userRequest.getPatronymic());
         return in;
     }
 
@@ -54,7 +51,6 @@ public class UserFacade {
         user.setLogin(userRequest.getLogin());
         user.setName(userRequest.getName());
         user.setSurname(userRequest.getSurname());
-        user.setPatronymic(userRequest.getPatronymic());
         return user;
     }
 

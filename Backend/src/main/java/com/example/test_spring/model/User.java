@@ -32,14 +32,9 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
-    @Basic
-    @Column(name = "patronymic")
-    private String patronymic;
-
-
-    private String pass_salt_prefix = "VlFhK3:-SdZ=";
-    private String pass_salt_postfix = "sbD:MDkf#YsT";
     public String hash_password(final String pass) {
+            String pass_salt_prefix = "VlFhK3:-SdZ=";
+            String pass_salt_postfix = "sbD:MDkf#YsT";
             String salted_password = pass_salt_prefix + pass + pass_salt_postfix;
             return DigestUtils.sha256Hex(salted_password);
     }

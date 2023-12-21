@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Messenger</title>
+</head>
+<body>
+
+<div class="conteiner" id="conteiner">
+    <div class="form-conteiner sign-up">
+        <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+            <h1>Регистрация</h1>
+            <input type="text" th:field="*{name}"
+                   placeholder="Name">
+            <input type="surename" th:field="*{surname}"
+                   placeholder="Surename">
+            <input type="nickname" th:field="*{login}"
+                   placeholder="Nickname">
+            <input type="password" th:field="*{password}"
+                   placeholder="Password">
+            <button>Регистрация</button>
+        </form>
+    </div>
+    <div class="form-conteiner sign-in">
+        <form>
+            <h1>Вход</h1>
+            <input type="nickname"
+                   placeholder="Nickname">
+            <input type="password"
+                   placeholder="Password">
+            <button>Войти</button>
+        </form>
+    </div>
+    <div class="toggle-conteiner">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <h1>С возвращением!</h1>
+                <p>Введите свои личные данные, чтобы использовать Messenger</p>
+                <button class="hidden" id="login">Войти</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+                <h1>Добро пожаловать!</h1>
+                <p>Зарегистрируйтесь, указав свои личные данные, чтобы использовать Messenger</p>
+                <button class="hidden" id="register">Регистрация</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/script.js"></script>
+</body>
+</html>

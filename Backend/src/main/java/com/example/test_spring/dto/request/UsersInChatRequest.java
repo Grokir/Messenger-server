@@ -16,8 +16,8 @@ import java.util.UUID;
 public class UsersInChatRequest {
     @JsonProperty("id")
     private UUID id;
-    @JsonProperty("chatId")
-    private UUID chatId;
+//    @JsonProperty("chatId")
+//    private UUID chatId;
     @JsonProperty("arrUserId")
     private JSONArray arrUserId; // должен быть массивом
     @JsonProperty("wasDeleted")

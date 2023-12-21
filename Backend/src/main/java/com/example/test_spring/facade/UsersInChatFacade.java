@@ -16,17 +16,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UsersInChatFacade {
     @SneakyThrows
-    public List<MapSqlParameterSource> createSQLRequest(UsersInChatRequest inChatRequest) {
+    public List<MapSqlParameterSource> createSQLRequest(UsersInChatRequest inChatRequest, String chatId) {
         List<MapSqlParameterSource> res = new ArrayList<>();
         JSONArray list_id = inChatRequest.getArrUserId();
+
         for(Integer i = 0; i < list_id.size(); i++){
             MapSqlParameterSource in = new MapSqlParameterSource();
             String tmp = list_id.get(i).toString();
             in.addValue("user_id", UUID.fromString(tmp));
-            in.addValue("chat_id", inChatRequest.getChatId());
+            in.addValue("chat_id", UUID.fromString(chatId));
             res.add(in);
         }
         return res;
     }
+
 
 }

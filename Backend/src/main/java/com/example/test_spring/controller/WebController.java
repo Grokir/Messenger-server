@@ -16,8 +16,16 @@ public class WebController {
 //    @GetMapping("/hello_world")
 //    public ResponseEntity<String> helloWorld()   {return new ResponseEntity<>("Hello, World", HttpStatus.OK); }
 
+
+    // localhost:8080
     @GetMapping("/")
     public String index()   {return "index"; }
+
+    // после входа в систему
+//    @GetMapping("/chat")
+//    public String chatView() {
+//        return "chat";
+//    }
 
 }
 
