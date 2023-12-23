@@ -2,9 +2,11 @@ package com.example.test_spring.controller;
 
 
 import com.example.test_spring.dto.request.ChatRequest;
+import com.example.test_spring.dto.request.MsgDelRequest;
 import com.example.test_spring.dto.request.MsgRequest;
 import com.example.test_spring.dto.request.UsersInChatRequest;
 import com.example.test_spring.service.ChatService;
+import com.example.test_spring.service.CryptoService;
 import com.example.test_spring.service.MsgService;
 import com.example.test_spring.service.UsersInChatService;
 import lombok.RequiredArgsConstructor;
@@ -48,10 +50,25 @@ public class HistoryController {
     @PostMapping("/{chatId}/add_msg")
     public ResponseEntity<String> addMsg(@RequestBody MsgRequest msgRequest, @PathVariable String chatId){
         LocalDateTime time_requset = LocalDateTime.now();
-        msgRequest.setDate_dispatch(time_requset);
+
+        String decodeMsgText = CryptoService.sendPOST("msgText", msgRequest.getMsgText(), true);
+
+        msgRequest.setMsgText(decodeMsgText);
+        msgRequest.setTimeMessage(time_requset);
         Boolean isCreated = msgService.create(msgRequest, chatId);
         return new ResponseEntity<>("Add msg: " + isCreated, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{chatId}/delete_msg")
+    public ResponseEntity<String> deleteSeveralMsg(@RequestBody MsgDelRequest delRequest){
+        JSONArray msgArray = delRequest.getMsgIdArray();
+        Boolean res = false;
+        for(Integer i = 0; i < msgArray.size(); i++){
+            res = msgService.delete((String) msgArray.get(i));
+        }
+        return new ResponseEntity<>("Delete msg: " + res, HttpStatus.OK);
+    }
+
 
     @GetMapping("/{chatId}/show_all")
     public ResponseEntity<JSONArray> showAllMessages(@PathVariable String chatId){

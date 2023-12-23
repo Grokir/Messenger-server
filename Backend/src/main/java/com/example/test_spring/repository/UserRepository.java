@@ -13,23 +13,28 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<User> findUserByName(String name);
-
     Optional<User> findUserByLogin(String login);
 
     Optional<User> findUserById(UUID userId);
-
-    @Query("SELECT u FROM User u WHERE u.name LIKE ?1")
-    List<User> findAllByNameLike(String name);
 
     @Query("SELECT u FROM User u")
     List<User> showAll();
 
     @Query(value = """
-    SELECT public."user".password
-    FROM public."user"
-    WHERE id = :userId
-""",nativeQuery = true)
+        SELECT *
+        FROM public."user" u
+        WHERE u.login LIKE :searchStr
+        OR u.name LIKE :searchStr
+        OR u.surname LIKE :searchStr
+
+    """, nativeQuery = true)
+    List<User> findAllBySearchStr(@Param("searchStr") String searchStr);
+
+    @Query(value = """
+        SELECT public."user".password
+        FROM public."user"
+        WHERE id = :userId
+    """,nativeQuery = true)
     String getPasswordById(@Param("userId") UUID userId);
 
     @Query(value = """
@@ -38,7 +43,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                     FROM public.user u
                     WHERE u.login = :login
                     )
-""", nativeQuery = true)
+    """, nativeQuery = true)
     Boolean existUser(@Param("login") String login);
 
 }

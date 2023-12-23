@@ -4,6 +4,7 @@ import com.example.test_spring.dto.request.UserRequest;
 import com.example.test_spring.dto.response.UserResponse;
 import com.example.test_spring.model.User;
 import com.example.test_spring.repository.UserRepository;
+import com.example.test_spring.service.CryptoService;
 import com.example.test_spring.service.UserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,15 +35,18 @@ public class UserController {
 //           "password": "...."
 //         }
 //
+
+
         JSONObject json = new JSONObject();
+
         if(!userService.existUserWithLogin(userRequest.getLogin())){
             json.put("status", "user not exist or wrong login");
             return new ResponseEntity<>(json, HttpStatus.NOT_ACCEPTABLE);
         }
         User user = userRepository.findUserByLogin(userRequest.getLogin()).orElseThrow();
         String checkPass = userService.getPasswordById(user.getId());
-
-        if(checkPass.equals(user.hash_password(userRequest.getPassword()))){
+        String decodePassword = CryptoService.sendPOST("password", userRequest.getPassword(), true);
+        if(checkPass.equals(user.hash_password(decodePassword))){
             json.put("status", "OK");
             return new ResponseEntity<>(json, HttpStatus.OK);
         }
@@ -53,6 +57,9 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody UserRequest userRequest){
+
+        String decodePassword = CryptoService.sendPOST("password", userRequest.getPassword(), true);
+        userRequest.setPassword(decodePassword);
         return new ResponseEntity<>("Add record: " + userService.create(userRequest), HttpStatus.CREATED);
     }
 
@@ -76,10 +83,11 @@ public class UserController {
 
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
+    
 
-    @GetMapping("/find_by_name/{userName}")
-    public ResponseEntity<JSONArray> findUserByName(@PathVariable String userName) {
-        List<UserResponse> user_list =  userService.findAllUsersByName(userName);
+    @GetMapping("/find/{searchString}")
+    public ResponseEntity<JSONArray> findUsers(@PathVariable String searchString){
+        List<UserResponse> user_list =  userService.findAllUsersByStr(searchString);
 
         JSONArray jsonArray = new JSONArray();
         jsonArray.addAll(user_list);

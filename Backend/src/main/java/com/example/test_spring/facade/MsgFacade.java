@@ -22,25 +22,25 @@ public class MsgFacade {
     public MapSqlParameterSource toCreateMsg(MsgRequest msgRequest) {
         MapSqlParameterSource in = new MapSqlParameterSource();
         in.addValue("id", msgRequest.getId());
-        in.addValue("user_id", msgRequest.getUser_id());
-        in.addValue("message", msgRequest.getMsg_text());
-        in.addValue("time_message", msgRequest.getDate_dispatch());
+        in.addValue("user_id", msgRequest.getUserId());
+        in.addValue("message", msgRequest.getMsgText());
+        in.addValue("time_message", msgRequest.getTimeMessage());
         return in;
     }
 
     public MapSqlParameterSource toUpdateMsg(MsgRequest msgRequest, String msgId) {
         MapSqlParameterSource in = new MapSqlParameterSource();
         in.addValue("id", msgId);
-        in.addValue("message", msgRequest.getMsg_text());
+        in.addValue("message", msgRequest.getMsgText());
         return in;
     }
 
 
     public Msg toMsg(MsgRequest msgRequest) {
         Msg msg = new Msg();
-        msg.setMsgText(msgRequest.getMsg_text());
-        msg.setUserId(msgRequest.getUser_id());
-        msg.setTimeMessage(msgRequest.getDate_dispatch());
+        msg.setMsgText(msgRequest.getMsgText());
+        msg.setUserId(msgRequest.getUserId());
+        msg.setTimeMessage(msgRequest.getTimeMessage());
         return msg;
     }
 

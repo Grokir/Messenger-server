@@ -1,13 +1,14 @@
 db:
   name: chat
   setting: ?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
-  #  host: 192.168.0.106
+  #  host: 192.168.0.105
   port: 5432
   password: GK_prod_2020
 
 app:
   port: 8080
-  host: 127.0.0.1
+#  host: 127.0.0.1
+  host: 192.168.0.105
 
 spring:
   datasource:
@@ -41,4 +42,5 @@ spring:
 #          CreateReadUpdateDelete: info
 server:
   port: ${app.port:8080}
-  address: ${app.host:127.0.0.1}
+#  address: ${app.host:127.0.0.1}
+  address: ${app.host:localhost}

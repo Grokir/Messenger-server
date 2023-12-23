@@ -27,6 +27,10 @@ public class Msg {
     @Column(name = "time_message")
     private LocalDateTime timeMessage;
 
+    @Basic
+    @Column(name = "was_delete")
+    private Boolean wasDelete;
+
 //    private SimpleDateFormat format_date= new SimpleDateFormat("dd.MM.yyyy");
 //    private SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss");
 //

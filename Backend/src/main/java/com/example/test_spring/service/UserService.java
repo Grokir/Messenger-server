@@ -37,23 +37,7 @@ public class UserService implements BaseService<UserRequest, UserResponse> {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-//    public UserResponse findUserByFirstName(String column, String param) {
-//        this.namedParameterJdbcTemplate.
-////        return userFacade.toResponse(userRepository.findUserByName(username).orElseThrow(() -> new RuntimeException("Username not found with username " + username)));
-//    }
-
-//    public List<UserResponse> findUserByFirstName(String param) {
-//        List<User> list = userRepository.findAllByParamLike(param);
-//        List<UserResponse> result = null;
-//        for(User u : list){
-//            result.add(userFacade.toResponse(u));
-//        }
-//        int num = result.size();
-//        return result;
-//    }
-
-
-        @Override
+    @Override
     public UserResponse getReferenceById(String id) {
         return null;
     }
@@ -109,12 +93,8 @@ public class UserService implements BaseService<UserRequest, UserResponse> {
         return false;
     }
 
-    public UserResponse findUserByName(String name) {
-        return userFacade.toResponse(userRepository.findUserByName(name).orElseThrow(() -> new RuntimeException("Username not found with username " + name)));
-    }
-
-    public List<UserResponse> findAllUsersByName(String name) {
-        List<User> userList = userRepository.findAllByNameLike(name);
+    public List<UserResponse> findAllUsersByStr(String searchStr) {
+        List<User> userList = userRepository.findAllBySearchStr('%' + searchStr + '%');
         List<UserResponse> resList = new ArrayList<>();
 
         for(User u: userList) {
@@ -126,6 +106,8 @@ public class UserService implements BaseService<UserRequest, UserResponse> {
 
         return resList;
     }
+
+
     public UserResponse findUserByLogin(String login) {
         User tmpUser = userRepository.findUserByLogin(login).orElseThrow(() -> new RuntimeException("Username not found with login " + login));
         if (tmpUser.getName().equals("DELETED") || tmpUser.getSurname().equals("DELETED"))
@@ -150,7 +132,6 @@ public class UserService implements BaseService<UserRequest, UserResponse> {
             if(u.getName().equals("DELETED")  &&  u.getSurname().equals("DELETED")) {
                 continue;
             }
-//            u.setId(null);
             u.setPassword("");
             resList.add(userFacade.toResponse(u));
 

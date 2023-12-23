@@ -33,6 +33,7 @@ public class MsgService implements BaseService<MsgRequest, MsgResponse>{
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -110,8 +111,8 @@ public class MsgService implements BaseService<MsgRequest, MsgResponse>{
         if (this.namedParameterJdbcTemplate.update(
                 """
 
-                        UPDATE chat.public."msg" SET 
-                        message = NULL
+                        UPDATE chat.public."msg" 
+                        SET was_delete = true
                         WHERE id=:id::uuid;""", in) > 0
         ) {
             return true;
@@ -124,20 +125,20 @@ public class MsgService implements BaseService<MsgRequest, MsgResponse>{
     }
 
     public JSONArray showAllMessgaes(String chatId){
-//        List<History> histories = historyRepository.returnAll();
 
         List<History> histories = historyRepository.findAllByChatId(UUID.fromString(chatId));
 
         List<MsgResponse> resList = new ArrayList<>();
 
         for(History h : histories) {
-//            if(!h.getChatId().equals(UUID.fromString(chatId))){
-//                continue;
-//            }
             UUID tmp = h.getMsgId();
-            resList.add(msgFacade.toResponse(
-                    msgRepository.findMsgById(tmp).orElseThrow(() -> new RuntimeException("msg with id " + tmp + "not found!"))
-            ));
+            Msg msg = msgRepository.findMsgById(tmp).orElseThrow(() -> new RuntimeException("msg with id " + tmp + "not found!"));
+
+            if (msg.getWasDelete())
+                continue;
+
+            msg.setMsgText(CryptoService.sendPOST("msgText", msg.getMsgText(), false));
+            resList.add(msgFacade.toResponse(msg));
         }
         JSONArray jsonArray = new JSONArray();
         jsonArray.addAll(resList);
