@@ -1,40 +1,37 @@
+from asyncio.windows_events import NULL
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 import cgi
+
 import base64
+import primary_encryption as pEnc
 
-from cryptography.hazmat.primitives.asymmetric.rsa import rsa_recover_prime_factors
-
-import primary_encryption as primary
-import rsa_encryption as rsa
-
-from source import RECEIVER_HOST
-from source import RECEIVER_PORT
-
+import source
 
 
 class HTTPHandler(BaseHTTPRequestHandler):
-        
-    __rsa_private_key,__rsa_public_key = rsa.generate_key_pair()
 
-    def __rsa_decrypt(self, enc_msg):
-        return rsa.rsa_decrypt(enc_msg, self.__rsa_private_key)
-
-    def set_response(self):
+    def __set_response(self):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
         
+    def __set_response_JSON(self, dataJSON):
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        self.wfile.write(bytes(json.dumps(dataJSON), 'utf-8'))
+
+
+    # GET запрос для дешифровки
     def do_GET(self):
         print("\n\n[GET]")
-        
-        # sender_host = 
-        # print(self.headers["Host"])
-        
+        # print("\n\n[POST]")
+                    
         if self.headers['content-type']:
 
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
-            message = ""
+            message = {}
             if ctype == 'application/json':
                 # self.send_response(400)
                 # self.end_headers()
@@ -42,43 +39,57 @@ class HTTPHandler(BaseHTTPRequestHandler):
                 # read the message and convert it into a python dictionary
                 length = int(self.headers['content-length'])
                 message = json.loads(self.rfile.read(length))
-                print(message)
+                # print(message)
+                for key in message:
+                    if key != source.LOGIN_JSON_KEY and key != source.PASSWORD_JSON_KEY and key!= source.MSG_TEXT_JSON_KEY:
+                        continue
+                    
+                    value =  str(base64.b64decode(message[key]).decode('ascii'))
+                    message[key] = pEnc.primary_decrypt(value)
+                print(f"[{key}]: {message[key]}")
 
-        self.set_response()    
+            self.__set_response_JSON(message)
 
-        # rsa.print_public_key(self.__rsa_public_key)
-        # self.wfile.write(bytes(self.__rsa_public_key.decode(), "utf8"))
-        self.wfile.write(self.__rsa_public_key)
+
         
-        
+    # POST запрос для шифрования        
     def do_POST(self):
         print("\n\n[POST]")
-        
-        print(self.headers['content-type'])
-        request_data = self.headers['Authorization'].split()
-        # enc_login, enc_pass = base64.b64decode(request_data[0]).decode('ascii').split('&')
-        print(self.__rsa_decrypt(base64.b64decode(request_data[0])))        
+        if self.headers['content-type']:
 
-        # print(f"login={self.__rsa_decrypt(enc_login)}, pass={self.__rsa_decrypt(enc_pass)}")
-        
-        ctype, pdict = cgi.parse_header(self.headers['content-type'])
-        message = ""
-        #refuse to receive non-json content
-        if ctype == 'application/json':
-            # self.send_response(400)
-            # self.end_headers()
+            ctype, pdict = cgi.parse_header(self.headers['content-type'])
+            message = {}
+            if ctype == 'application/json':
+                # self.send_response(400)
+                # self.end_headers()
                   
-            # read the message and convert it into a python dictionary
-            length = int(self.headers['content-length'])
-            message = json.loads(self.rfile.read(length))
-        
-        # add a property to the object, just to mess with data
-        # message['received'] = 'ok'
-        
-        # send the message back
-        self.set_response()  
-        # print(message)
-        self.wfile.write(bytes("received:ok", 'utf8'))
+                # read the message and convert it into a python dictionary
+                length = int(self.headers['content-length'])
+                message = json.loads(self.rfile.read(length))
+                # print(message)
+                print(message)
+                flag = False
+                for key in message:
+                    if source.LOGIN_JSON_KEY and source.PASSWORD_JSON_KEY and source.MSG_TEXT_JSON_KEY and source.IS_DECRYPT not in message:
+                        break
+
+                    if key == source.IS_DECRYPT:
+                        flag = message[key]
+                        continue
+                    
+                    value = ""
+                    if flag:
+                        base64_decode =  str(base64.b64decode(message[key]).decode('ascii'))
+                        value = pEnc.primary_decrypt(base64_decode)
+                    else:
+                        base64_bytes = base64.b64encode(pEnc.primary_encrypt(message[key]).encode('ascii'))
+                        value = base64_bytes.decode('ascii')
+                    
+                    message[key] = value
+
+                print(f"[{key}]: {message[key]}")
+
+            self.__set_response_JSON(message)
         
         
         
@@ -87,7 +98,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    server = HTTPServer((RECEIVER_HOST, RECEIVER_PORT), HTTPHandler)
+    server = HTTPServer((source.RECEIVER_HOST, source.RECEIVER_PORT), HTTPHandler)
     print("Server now running...")
 
     server.serve_forever()
