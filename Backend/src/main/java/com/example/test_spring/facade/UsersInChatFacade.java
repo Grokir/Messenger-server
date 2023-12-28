@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UsersInChatFacade {
     @SneakyThrows
-    public List<MapSqlParameterSource> createSQLRequest(UsersInChatRequest inChatRequest, String chatId) {
+    public List<MapSqlParameterSource> createSQLRequest(UsersInChatRequest inChatRequest) {
         List<MapSqlParameterSource> res = new ArrayList<>();
         JSONArray list_id = inChatRequest.getArrUserId();
 
@@ -24,7 +24,7 @@ public class UsersInChatFacade {
             MapSqlParameterSource in = new MapSqlParameterSource();
             String tmp = list_id.get(i).toString();
             in.addValue("user_id", UUID.fromString(tmp));
-            in.addValue("chat_id", UUID.fromString(chatId));
+            in.addValue("chat_id", inChatRequest.getId());
             res.add(in);
         }
         return res;

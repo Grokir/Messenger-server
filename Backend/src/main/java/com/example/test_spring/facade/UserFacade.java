@@ -19,6 +19,16 @@ public class UserFacade {
                 .build();
     }
 
+    public MapSqlParameterSource toUserSQL(User user) {
+        MapSqlParameterSource in = new MapSqlParameterSource();
+        in.addValue("name", user.getName());
+        in.addValue("surname", user.getSurname());
+        in.addValue("login", user.getLogin());
+        in.addValue("password", new User().hash_password(user.getPassword()));
+        return in;
+    }
+
+
     public MapSqlParameterSource toCreateUser(UserRequest userRequest) {
         MapSqlParameterSource in = new MapSqlParameterSource();
         in.addValue("name", userRequest.getName());
@@ -28,9 +38,9 @@ public class UserFacade {
         return in;
     }
 
-    public MapSqlParameterSource toUpdateUser(UserRequest userRequest, String userId) {
+    public MapSqlParameterSource toUpdateUser(UserRequest userRequest) {
         MapSqlParameterSource in = new MapSqlParameterSource();
-        in.addValue("id", userId);
+        in.addValue("id", userRequest.getId());
         in.addValue("login", userRequest.getLogin());
         in.addValue("password", new User().hash_password(userRequest.getPassword()));
         in.addValue("name", userRequest.getName());

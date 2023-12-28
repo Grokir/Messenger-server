@@ -24,9 +24,9 @@ public class ChatFacade {
         return in;
     }
 
-    public MapSqlParameterSource toUpdateChat(ChatRequest chatRequest, String chatId) {
+    public MapSqlParameterSource toUpdateChat(ChatRequest chatRequest) {
         MapSqlParameterSource in = new MapSqlParameterSource();
-        in.addValue("id", chatId);
+        in.addValue("id", chatRequest.getId());
         in.addValue("title", chatRequest.getTitle());
         return in;
     }

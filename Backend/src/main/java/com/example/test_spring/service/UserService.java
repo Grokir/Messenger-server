@@ -56,7 +56,7 @@ public class UserService implements BaseService<UserRequest, UserResponse> {
     }
 
     @Override
-    public Boolean update(UserRequest userRequest, String id) {
+    public Boolean update(UserRequest userRequest) {
 
         if(
                 this.namedParameterJdbcTemplate.update("""
@@ -66,7 +66,7 @@ public class UserService implements BaseService<UserRequest, UserResponse> {
                                     login = :login, 
                                     password = :password 
                                 WHERE id = :id::uuid""",
-                        userFacade.toUpdateUser(userRequest, id)
+                        userFacade.toUpdateUser(userRequest)
                 ) > 0
         )
         {

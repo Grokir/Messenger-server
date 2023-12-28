@@ -14,7 +14,7 @@ public interface BaseService<Q,A> {
 
     Boolean create(@RequestBody Q request);
 
-    Boolean update(@RequestBody Q request, String id);
+    Boolean update(@RequestBody Q request);
 
     Boolean delete(@PathVariable("id") String id);
 

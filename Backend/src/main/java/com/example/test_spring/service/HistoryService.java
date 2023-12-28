@@ -34,7 +34,7 @@ public class HistoryService implements BaseService<HistoryRequest, HistoryRespon
     }
 
     @Override
-    public Boolean update(HistoryRequest request, String id) {
+    public Boolean update(HistoryRequest request) {
         return null;
     }
 

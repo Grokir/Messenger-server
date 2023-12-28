@@ -85,7 +85,7 @@ public class MsgService implements BaseService<MsgRequest, MsgResponse>{
     }
 
     @Override
-    public Boolean update(MsgRequest msgRequest, String id) {
+    public Boolean update(MsgRequest msgRequest) {
 
         if(
                 this.namedParameterJdbcTemplate.update("""
@@ -94,7 +94,7 @@ public class MsgService implements BaseService<MsgRequest, MsgResponse>{
                                     message = :message,
                                     time_message = :time_message
                                 WHERE id = :id::uuid""",
-                        msgFacade.toUpdateMsg(msgRequest, id)
+                        msgFacade.toUpdateMsg(msgRequest)
                 ) > 0
         )
         {

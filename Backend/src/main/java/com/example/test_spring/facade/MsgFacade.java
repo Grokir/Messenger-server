@@ -28,9 +28,9 @@ public class MsgFacade {
         return in;
     }
 
-    public MapSqlParameterSource toUpdateMsg(MsgRequest msgRequest, String msgId) {
+    public MapSqlParameterSource toUpdateMsg(MsgRequest msgRequest) {
         MapSqlParameterSource in = new MapSqlParameterSource();
-        in.addValue("id", msgId);
+        in.addValue("id", msgRequest.getId());
         in.addValue("message", msgRequest.getMsgText());
         return in;
     }

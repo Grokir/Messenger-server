@@ -10,12 +10,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
-
-@RestController
+@Controller
+//@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -25,6 +27,11 @@ public class UserController {
     public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
+    }
+
+    @GetMapping("/create")
+    public String index(@ModelAttribute("user") User user){
+        return "registration_form";
     }
 
     @PostMapping("/login")
@@ -55,7 +62,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/create")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<String> create(@RequestBody UserRequest userRequest){
 
         String decodePassword = CryptoService.sendPOST("password", userRequest.getPassword(), true);
@@ -65,7 +72,8 @@ public class UserController {
 
     @PatchMapping("/update/{userId}")
     public ResponseEntity<String> update(@RequestBody UserRequest userRequest, @PathVariable String userId){
-        return new ResponseEntity<>("Update record: " + userService.update(userRequest, userId), HttpStatus.OK);
+        userRequest.setId(UUID.fromString(userId));
+        return new ResponseEntity<>("Update record: " + userService.update(userRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{userId}")
@@ -83,7 +91,7 @@ public class UserController {
 
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
-    
+
 
     @GetMapping("/find/{searchString}")
     public ResponseEntity<JSONArray> findUsers(@PathVariable String searchString){

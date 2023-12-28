@@ -20,9 +20,11 @@ public class TestSpringApplication implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/templates/index.html").setViewName("/login");
-        registry.addViewController("/templates/index.html").setViewName("forward:/");
+        registry.addViewController("/templates/registration_form.html").setViewName("/");
+//        registry.addViewController("/templates/registration_form.html").setViewName("forward:/");
+
     }
+
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> containerCustomizer() {
         return container -> {

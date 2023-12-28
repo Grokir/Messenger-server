@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/chat")
@@ -39,12 +40,14 @@ public class HistoryController {
 
     @PostMapping("/{chatId}/add_user")
     public ResponseEntity<String> addUser(@RequestBody UsersInChatRequest usersInChatRequest, @PathVariable String chatId){
-        return new ResponseEntity<>("Add record: " + usersInChatService.addUsers(usersInChatRequest, chatId), HttpStatus.OK);
+        usersInChatRequest.setId(UUID.fromString(chatId));
+        return new ResponseEntity<>("Add record: " + usersInChatService.addUsers(usersInChatRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/{chatId}/delete_user")
     public  ResponseEntity<String> deleteUser(@RequestBody UsersInChatRequest usersInChatRequest, @PathVariable String chatId){
-        return new ResponseEntity<>("Add record: " + usersInChatService.update(usersInChatRequest, chatId), HttpStatus.OK);
+        usersInChatRequest.setId(UUID.fromString(chatId));
+        return new ResponseEntity<>("Add record: " + usersInChatService.update(usersInChatRequest), HttpStatus.OK);
     }
 
     @PostMapping("/{chatId}/add_msg")

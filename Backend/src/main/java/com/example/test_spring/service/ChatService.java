@@ -38,12 +38,12 @@ public class ChatService implements BaseService<ChatRequest, ChatResponse>{
     }
 
     @Override
-    public Boolean update(ChatRequest chatRequest, String id) {
+    public Boolean update(ChatRequest chatRequest) {
         Integer isChatWasUpdated = this.namedParameterJdbcTemplate.update("""
                                 UPDATE chat.public."chat" 
                                 SET title = :title
                                 WHERE id = :id::uuid""",
-                chatFacade.toUpdateChat(chatRequest, id));
+                chatFacade.toUpdateChat(chatRequest));
 
         if(isChatWasUpdated > 0)
         {

@@ -24,13 +24,13 @@ public class UsersInChatService implements BaseService<UsersInChatRequest, Users
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Boolean addUsers(UsersInChatRequest usersInChatRequest, String chatId){
+    public Boolean addUsers(UsersInChatRequest usersInChatRequest){
 
-        List<MapSqlParameterSource> list = uichFacade.createSQLRequest(usersInChatRequest, chatId);
+        List<MapSqlParameterSource> list = uichFacade.createSQLRequest(usersInChatRequest);
 
         for(MapSqlParameterSource obj : list) {
 
-            if(usersInChatRepository.existUserInChat((UUID)obj.getValue("user_id"), UUID.fromString(chatId))){
+            if(usersInChatRepository.existUserInChat((UUID)obj.getValue("user_id"), usersInChatRequest.getId())){
                 continue;
             }
 
@@ -66,8 +66,8 @@ public class UsersInChatService implements BaseService<UsersInChatRequest, Users
     }
 
     @Override
-    public Boolean update(UsersInChatRequest request, String chatId) {
-        List<MapSqlParameterSource> list = uichFacade.createSQLRequest(request, chatId);
+    public Boolean update(UsersInChatRequest request) {
+        List<MapSqlParameterSource> list = uichFacade.createSQLRequest(request);
         for(MapSqlParameterSource obj : list) {
             if
             (
@@ -75,7 +75,7 @@ public class UsersInChatService implements BaseService<UsersInChatRequest, Users
                         
                             UPDATE chat.public.users_in_chat SET  
                         was_deleted = true
-                        WHERE user_id=:user_id::uuid and chat_id =:chatId::uuid;
+                        WHERE user_id=:user_id::uuid and chat_id =:chat_id::uuid;
                         """, obj) <= 0
             )
             {
