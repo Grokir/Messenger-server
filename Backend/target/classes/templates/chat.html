@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/tailwindcss-colors.css">
+    <link rel="stylesheet" href="/static/css/style_chat.css">
+    <title>Messenger</title>
+</head>
+<body>
+
+    <!-- start: Chat -->
+    <section class="chat-section">
+        <div class="chat-container">
+            <!-- start: Sidebar -->
+            <aside class="chat-sidebar">
+                <a href="#" class="chat-sidebar-logo">
+                    <img src="/static/img/Logo (2).png" width="40px">
+                </a>
+                <ul class="chat-sidebar-menu">
+                    <li class="active"><a href="#" data-title="Чаты"><i class="ri-chat-3-line"></i></a></li>
+                    <li><a href="#" data-title="Профиль"><i class="ri-home-line"></i></a></li>
+                    <li><a href="#" data-title="Настройки"><i class="ri-settings-line"></i></a></li>
+                </ul>
+            </aside>
+            <!-- end: Sidebar -->
+            <!-- start: Content -->
+            <div class="chat-content">
+                <!-- start: Content side -->
+                <div class="content-sidebar">
+                    <div class="content-sidebar-title">Чаты</div>
+                    <form action="" class="content-sidebar-form">
+                        <input type="search" class="content-sidebar-input" placeholder="Поиск...">
+                        <button type="submit" class="content-sidebar-submit"><i class="ri-search-line"></i></button>
+                    </form>
+                    <div class="content-messages">
+                        <ul class="content-messages-list">
+                            <!--<li class="content-message-title"><span>Recently</span></li>-->
+                            <li>
+                                <a href="#" data-conversation="#conversation-1">
+                                    <img class="content-message-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                    <span class="content-message-info">
+                                        <span class="content-message-name">Nickname</span>
+                                        <span class="content-message-text">...</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-conversation="#conversation-2">
+                                    <img class="content-message-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                    <span class="content-message-info">
+                                        <span class="content-message-name">Nickname</span>
+                                        <span class="content-message-text">...</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="content-message-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                    <span class="content-message-info">
+                                        <span class="content-message-name">Nickname</span>
+                                        <span class="content-message-text">...</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="content-message-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                    <span class="content-message-info">
+                                        <span class="content-message-name">Nickname</span>
+                                        <span class="content-message-text">...</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end: Content side -->
+                <!-- start: Conversation -->
+                <div class="conversation conversation-default active">
+                    <i class="ri-chat-3-line"></i>
+                    <p>Выберите чат!</p>
+                </div>
+                <div class="conversation" id="conversation-1">
+                    <div class="conversation-top">
+                        <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>
+                        <div class="conversation-user">
+                            <img class="conversation-user-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                            
+                            <div class="conversation-user-name">Nickname</div>
+                                <!--<div class="conversation-user-status online">online</div>-->
+                            
+                        </div>
+                    </div>
+                    <div class="conversation-main">
+                        <ul class="conversation-wrapper">
+                            <li class="conversation-item me">
+                                <div class="conversation-item-side">
+                                    <img class="conversation-item-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="conversation-item">
+                                <div class="conversation-item-side">
+                                    <img class="conversation-item-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="conversation-item me">
+                                <div class="conversation-item-side">
+                                    <img class="conversation-item-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="conversation-form">
+                       
+                        <div class="conversation-form-group">
+                            <textarea class="conversation-form-input" rows="1" placeholder="Сообщение..."></textarea>
+                        </div>
+                        <button type="button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
+                    </div>
+                </div>
+                <div class="conversation" id="conversation-2">
+                    <div class="conversation-top">
+                        <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>
+                        <div class="conversation-user">
+                            <img class="conversation-user-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                            
+                            <div class="conversation-user-name">Nickname 1</div>
+                            
+                        </div>
+                    </div>
+                    <div class="conversation-main">
+                        <ul class="conversation-wrapper">
+                            <li class="conversation-item me">
+                                <div class="conversation-item-side">
+                                    <img class="conversation-item-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="conversation-item">
+                                <div class="conversation-item-side">
+                                    <img class="conversation-item-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="conversation-item me">
+                                <div class="conversation-item-side">
+                                    <img class="conversation-item-image" src="https://cdn2.iconfinder.com/data/icons/web-and-apps-interface/32/User-1024.png" alt="">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p></p>
+                                                <div class="conversation-item-time">00:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="conversation-form">
+                        <div class="conversation-form-group">
+                            <textarea class="conversation-form-input" rows="1" placeholder="Сообщение..."></textarea>
+                        </div>
+                        <button type="button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
+                    </div>
+                </div>
+                <!-- end: Conversation -->
+            </div>
+            <!-- end: Content -->
+        </div>
+    </section>
+    <!-- end: Chat -->
+    
+    <script src="/static/js/script_chat.js"></script>
+</body>
+</html>
