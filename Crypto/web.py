@@ -22,37 +22,8 @@ class HTTPHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(json.dumps(dataJSON), 'utf-8'))
 
-
-    # GET запрос для дешифровки
-    def do_GET(self):
-        print("\n\n[GET]")
-        # print("\n\n[POST]")
-                    
-        if self.headers['content-type']:
-
-            ctype, pdict = cgi.parse_header(self.headers['content-type'])
-            message = {}
-            if ctype == 'application/json':
-                # self.send_response(400)
-                # self.end_headers()
-                  
-                # read the message and convert it into a python dictionary
-                length = int(self.headers['content-length'])
-                message = json.loads(self.rfile.read(length))
-                # print(message)
-                for key in message:
-                    if key != source.LOGIN_JSON_KEY and key != source.PASSWORD_JSON_KEY and key!= source.MSG_TEXT_JSON_KEY:
-                        continue
-                    
-                    value =  str(base64.b64decode(message[key]).decode('ascii'))
-                    message[key] = pEnc.primary_decrypt(value)
-                print(f"[{key}]: {message[key]}")
-
-            self.__set_response_JSON(message)
-
-
         
-    # POST запрос для шифрования        
+    # POST запрос для шифрования и дешифрования       
     def do_POST(self):
         print("\n\n[POST]")
         if self.headers['content-type']:
